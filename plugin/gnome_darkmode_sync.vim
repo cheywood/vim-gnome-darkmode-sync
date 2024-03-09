@@ -1,11 +1,11 @@
 " Maintainer:   Chris Heywood <https://github.com/cheywood>
-" Version:      0.1.1
+" Version:      0.1.2
 
 if exists("gnome_darkmode_sync_loaded") || has("gui_running")
     finish
 endif
 
-if !exists($XDG_CURRENT_DESKTOP) || $XDG_CURRENT_DESKTOP != "GNOME"
+if empty($XDG_CURRENT_DESKTOP) || $XDG_CURRENT_DESKTOP != "GNOME"
     finish
 endif
 let gnome_darkmode_sync_loaded = 1
