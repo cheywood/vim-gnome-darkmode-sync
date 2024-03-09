@@ -1,7 +1,11 @@
 " Maintainer:   Chris Heywood <https://github.com/cheywood>
-" Version:      0.1
+" Version:      0.1.1
 
 if exists("gnome_darkmode_sync_loaded") || has("gui_running")
+    finish
+endif
+
+if !exists($XDG_CURRENT_DESKTOP) || $XDG_CURRENT_DESKTOP != "GNOME"
     finish
 endif
 let gnome_darkmode_sync_loaded = 1
@@ -13,10 +17,6 @@ endfunction
 let gnome_darkmode_sync_init_finished = 0
 
 python3 << endpython
-import os
-if "XDG_CURRENT_DESKTOP" not in os.environ or os.environ["XDG_CURRENT_DESKTOP"] != "GNOME":
-    exit()
-
 from gi.repository import Gio, GLib, GObject
 import threading
 from typing import Optional
@@ -40,7 +40,7 @@ monitor = DarkmodeMonitor()
 settings = Gio.Settings.new("org.gnome.desktop.interface")
 settings.bind("color-scheme", monitor, "color-scheme", Gio.SettingsBindFlags.DEFAULT)
 
-def scheme_changed(obj: GObject.Object, 
+def scheme_changed(obj: GObject.Object,
                    _new_value: Optional[GObject.ParamSpec] = None) -> None:
     new_value = obj.color_scheme
     new_style = "dark" if "dark" in new_value else "light"
@@ -67,7 +67,7 @@ def scheme_changed(obj: GObject.Object,
     except Exception as e:
         pass
     if not starting_up:
-        # This is a hack to ensure the screen gets redrawn when not focused. 
+        # This is a hack to ensure the screen gets redrawn when not focused.
         # Calling this during startup appears to mess up the terminal session.
         try:
             vim.command("redraw")
