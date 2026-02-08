@@ -1,5 +1,9 @@
 # VIM GNOME darkmode sync
 
+Archived, used [vim-lumen](https://github.com/vimpostor/vim-lumen) instead.
+
+------------
+
 Aims to provide a mechanism to sync dark-style mode into running non-GUI local
 VIM instances under a GNOME desktop. This is likely a stop gap fix until a
 better approach is available.
